@@ -1,5 +1,5 @@
 
-from flask import request, Blueprint, render_template, redirect, url_for, flash
+from flask import request, Blueprint, render_template, redirect, url_for, flash, session, g, app
 import logging
 from .db import get_db
 
@@ -44,7 +44,6 @@ def login():
 		assert username is not None
 		db = get_db()
 		result = db.execute('select * from user_table where username = (?)', (username, )).fetchone()
-		print('result:', result)
 
 		error = None
 		if result is None:
@@ -53,6 +52,11 @@ def login():
 			error = 'incorrect password!'
 
 		if error is None:
+			print("before store username in session, session.keys:", session.keys)
+			# save user info in session before redirecting to a new url
+			session['username'] = username
+			print("before store username in session, session.keys:", session.keys)
+
 			return redirect(url_for('index'))
 
 		flash(error)
@@ -60,4 +64,16 @@ def login():
 	return render_template('auth/login.html')
 
 
+@auth_bp.before_request
+def load_logged_in_user():
+	g.user = session['username'] or None
+	if g.user is not None:
+		print("load logged in user:", g.user)
+
+
+@auth_bp.route('/auth/logout', methods = ('GET', 'POST'))
+def logout():
+	g.user = None
+	session.clear()
+	return redirect(url_for('index'))
 

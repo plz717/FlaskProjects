@@ -29,6 +29,7 @@ def close_db(e):
 		g.db.close()
 		print("closed db.")
 
+
 def init_db_for_app(app):
 	app.teardown_appcontext(close_db)
 	init_db(app)

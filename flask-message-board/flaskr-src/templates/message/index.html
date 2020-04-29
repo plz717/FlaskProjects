@@ -1,0 +1,22 @@
+<!DOCTYPE>
+<html>
+<head>
+	<title>Index page!</title>
+</head>
+<body>
+	{% if g.user %}
+		<a href= url_for('msg/create')>Create</a>
+		<a href= url_for('auth/logout')>Log Out</a>
+	{% else %}
+		<a href=url_for('auth/login')>Log In</a>
+		<a href=url_for('auth/register')>Register</a>
+	{% endif %}
+
+	{% if posts %}
+		{% for post in posts %}
+			<p1>post['title'] by post['author'] on post['created_time']</p1>
+			<textarea>post['body']</textarea>
+		{% endfor %}
+	{% endif %}
+</body>
+</html>
