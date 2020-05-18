@@ -17,14 +17,14 @@ def index():
 
 	# if request.form['method'] == 'POST':
 	# 	# blabla
-	g.user = session['username']
-	print("in index, g.user :", g.user)
+	g.user = session.get('username', None)
+	print("in index, g.user:", g.user)
 	return render_template('message/index.html', data = posts)
 
 
 @msg_bp.route('/create', methods = ('GET', 'POST'))
 def create():
-	print("in create, g.user:", g.user)
+	g.user = 
 	if g.user is None:
 		return redirect(url_for('auth/login'))
 

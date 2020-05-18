@@ -66,7 +66,7 @@ def login():
 
 @auth_bp.before_request
 def load_logged_in_user():
-	g.user = session['username'] or None
+	g.user = session.get('username', None)
 	if g.user is not None:
 		print("load logged in user:", g.user)
 
