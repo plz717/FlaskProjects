@@ -1,0 +1,23 @@
+/*页面整体*/
+body {
+    margin: auto;
+    max-width: 640px;
+    font-size: 14px;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+/*页脚*/
+footer {
+    color: #888;
+    margin-top: 15px;
+    text-align: center;
+    padding: 10px;
+}
+
+/*家人图片*/
+.family {
+    display: block;
+    margin:0 auto;
+    height: 480px;
+    width: 640px;
+}
