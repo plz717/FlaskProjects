@@ -12,7 +12,9 @@
     <p>{{ diaries|length }} Diaries in Total</p>
     <ul>
         {% for diary in diaries %}
-        <li>{{ diary.title }} ----- {{ diary.create_time }}</li>
+        <ul>
+            <a href="{{ url_for('show_diary',diary_id=diary.id) }}">{{ diary.title }} --- {{ diary.create_time }}</a>
+        </ul>
         {% endfor %}
     </ul>
 

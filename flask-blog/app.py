@@ -23,6 +23,7 @@ class User(db.Model):
 class Diary(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     create_time = db.Column(db.DateTime)
+    location = db.Column(db.String(60))
     title = db.Column(db.String(60))
     content = db.Column(db.Text)
 
@@ -37,28 +38,37 @@ def initdb(drop):
     click.echo("Initialized database.")
 
 
-# 假数据
-def fake_data():
+# 往数据库加入假数据
+@app.cli.command()
+def addfakedata():
     user = User(name = '小胖儿')
+    d1 = Diary(title = 'my first diary', content = 'Im so happy today!', create_time = datetime.datetime.now(), location = '杭州阿里巴巴')
+    d2 = Diary(title = 'my second diary', content = 'Today is so exciting!', create_time = datetime.datetime.now(), location = '杭州阿里巴巴')
+    d3 = Diary(title = 'my third diary', content = 'So hard my way...', create_time = datetime.datetime.now(), location = '杭州阿里巴巴')
+    # d3 = Diary(title = 'my third diary', content = 'So hard my way...', create_time = datetime.datetime.utcnow().strftime("%b %d %Y, %H:%M"))
+
+    db.session.add(user)
+    for diary in [d1, d2, d3]:
+        db.session.add(diary)
+    db.session.commit()
+    click.echo("have added fake data into database")
+
+    # check data
+    print("total count of data in user table:", User.query.count())
+    print("total count of data in diary table:", Diary.query.count())
+
+
+def fake_data():
     d1 = Diary(title = 'my first diary', content = 'Im so happy today!', create_time = datetime.datetime.utcnow().strftime("%b %d %Y, %H:%M"))
     d2 = Diary(title = 'my second diary', content = 'Today is so exciting!', create_time = datetime.datetime.utcnow().strftime("%b %d %Y, %H:%M"))
     d3 = Diary(title = 'my third diary', content = 'So hard my way...', create_time = datetime.datetime.utcnow().strftime("%b %d %Y, %H:%M"))
-    diaries = [d1, d2, d3]
-
-    print("d1.create_time:", d1.create_time)
-    print("d2.create_time:", d2.create_time)
-
-    return diaries
-
-
-
+    return  [d1, d2, d3]
 
 # 首页
 @app.route('/')
 def hello():
-    # return 'Welcome to My World!'
-    # return '<h1>Hello my Friend！</h1><img src="http://helloflask.com/totoro.gif">'
-    diaries = fake_data()
+    # diaries = fake_data()
+    diaries = Diary.query.all()
     return render_template('homepage.html', username='小胖儿', diaries = diaries)
     # return render_template('homepage.html', username = '小胖儿')
 
@@ -69,6 +79,14 @@ def hello():
 # @app.route('/homepage/<name>')
 # def homepage(name):
 #     return render_template('homepage.html', username = name, biography = 'my self-introduction')
+
+@app.route('/diaries/<diary_id>')
+def show_diary(diary_id):
+    cur_diary = Diary.query.get(diary_id)
+    id, title, time, content, location = cur_diary.id, cur_diary.title, cur_diary.create_time, cur_diary.content, cur_diary.location
+    time = time.strftime('%b %Y %d , %H:%M')
+    return render_template('diary.html', diary_id = id, time = time, title = title, content = content, username = '小胖儿', location = location)
+
 
 # 注册
 @app.route('/register')
