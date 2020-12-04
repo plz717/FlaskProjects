@@ -5,3 +5,16 @@
 <h1>Welcome to {{ username }}'s World!</h1>
 <p>This is my loving family!</p>
 <img alt="my family" class="family" src="{{ url_for('static', filename='images/family.jpg') }}" height="480" width="640">
+
+
+<body>
+    <h2>This is my diary!</h2>
+    <p>{{ diaries|length }} Diaries in Total</p>
+    <ul>
+        {% for diary in diaries %}
+        <li>{{ diary.title }} ----- {{ diary.create_time }}</li>
+        {% endfor %}
+    </ul>
+
+</body>
+
