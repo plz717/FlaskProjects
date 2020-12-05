@@ -2,21 +2,24 @@
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
 </head>
-<h1>Welcome to {{ username }}'s World!</h1>
+<h1 class="center-large">Welcome to {{ username }}'s World!</h1>
 <p>This is my loving family!</p>
-<img alt="my family" class="family" src="{{ url_for('static', filename='images/family.jpg') }}" height="480" width="640">
+<img alt="my family" class="family" src="{{ url_for('static', filename='images/family.jpg') }}">
 
-
+{# show all my diaries #}
 <body>
-    <h2>This is my diary!</h2>
-    <p>{{ diaries|length }} Diaries in Total</p>
-    <ul>
-        {% for diary in diaries %}
-        <ul>
-            <a href="{{ url_for('show_diary',diary_id=diary.id) }}">{{ diary.title }} --- {{ diary.create_time }}</a>
-        </ul>
-        {% endfor %}
-    </ul>
+    <center><h2>This is my diary!</h2></center>
+    <p>{{ diaries|length }} Diaries in Total!</p>
+    <a href="{{ url_for('create_diary') }}">New</a>  {# create a new diary #}
+
+    <ol>
+    {% for diary in diaries %}
+        <li>[{{ diary.create_time.year }}/{{ diary.create_time.month }}/{{ diary.create_time.day }}]   <a href="{{ url_for('show_diary',diary_id=diary.id) }}">{{ diary.title }}</a></li>
+    {% endfor %}
+    </ol>
 
 </body>
+
+
+
 
