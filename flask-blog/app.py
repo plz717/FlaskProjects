@@ -2,10 +2,11 @@ import os
 
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
-import datetime
+from datetime import datetime
 import click
 
 app = Flask(__name__)
+print("__name__:", __name__)
 app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'dev'
 
@@ -19,6 +20,7 @@ db = SQLAlchemy(app) # 初始化扩展，传入程序实例app
 class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(20))
+    password = db.Column(db.String(20))
 
 
 class Diary(db.Model):
@@ -42,13 +44,12 @@ def initdb(drop):
 # 往数据库加入假数据
 @app.cli.command()
 def addfakedata():
-    user = User(name = '小胖儿')
-    d1 = Diary(title = 'my first diary', content = 'Im so happy today!', create_time = datetime.date.today(), location = '杭州阿里巴巴')
-    d2 = Diary(title = 'my second diary', content = 'Today is so exciting!', create_time = datetime.date.today(), location = '杭州阿里巴巴')
-    d3 = Diary(title = 'my third diary', content = 'So hard my way...', create_time = datetime.date.today(), location = '杭州阿里巴巴')
+    user = User(name = '小胖儿', password = '040607')
+    date_time_obj = datetime.strptime('21/12/05 00:00:00', '%d/%m/%y %H:%M:%S')
+    d1 = Diary(title = u'我的第一个个人网站', content = u'从上周四到今天，利用工作&吃饭等之外的时间，完成了我的第一个个人网站！比想象的简单有趣多了！ 目前来看，这个网站主要是记录我自己的个人生活及心得，未来我还希望加入更多功能，做一个方便好用的日记工具～到那一天，某人会奖励我一个服务器将我的网站部署在上面给自己提供服务，同时我会考虑将它做成一个苹果或安卓的app分享给自己的亲朋好友使用。 头一回写代码写到了饭也不想吃觉也不想睡的地方，原来编程如此有趣，目测我的代码能力是想不提升也难了！😍!', create_time = date_time_obj, location = '上海古美七村')
 
     db.session.add(user)
-    for diary in [d1, d2, d3]:
+    for diary in [d1]:
         db.session.add(diary)
     db.session.commit()
     click.echo("have added fake data into database")
@@ -59,10 +60,15 @@ def addfakedata():
 
 
 # 首页
+    # 使用 app.route() 装饰器来为函数hello绑定对应的 URL，
+    # 当用户在浏览器访问这个 URL 的时候，就会触发函数hello，获取返回值，并把返回值显示到浏览器窗口
+    # 可以把 Web 程序看作是一堆这样的视图函数的集合：编写不同的函数处理对应 URL 的请求。
 @app.route('/')
 def hello():
     diaries = Diary.query.all()
     return render_template('homepage.html', username='小胖儿', diaries = diaries)
+    # flash("hello!")
+    # return render_template('test.html')
 
 # template: 包含变量和运算逻辑的html/其他格式文本, 默认存储在项目根目录中（即与app.py相同的目录下）
 # 渲染：进行变量替换及逻辑运算的过程，jinja2就是一个模版渲染引擎
@@ -135,10 +141,35 @@ def save_diary(diary_id):
     return redirect(url_for('hello'))
 
 
-# 注册
-@app.route('/register')
+# 注册账号
+@app.route('/register', methods = ['GET', 'POST'])
 def register():
-    return
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        # 验证数据
+        # username是否已存在
+        usernames = db.session.query(User.name).all()
+        usernames = [item[0] for item in usernames]
+
+        if username in usernames: 
+            flash("Username {} has existed!".format(username))
+            return render_template('register.html')
+
+        if not password or not username: 
+            flash("empty input!")
+            return render_template('register.html')
+        
+        user = User(name = username, password = password)
+        db.session.add(user)
+        db.session.commit()
+        flash("User {} registered successfully! you are {}-th user of this website!".format(username, len(db.session.query(User.name).all())))
+
+        return redirect(url_for('hello'))
+    
+    return render_template('register.html')
+
 #
 #
 # # 登陆
