@@ -8,6 +8,10 @@
 </p>
 
 <p>
+    {{ get_flashed_messages()[0] }}
+</p>
+
+<p>
     {% if username == None %}
         LOG IN BUTTON 
     {% endif %}

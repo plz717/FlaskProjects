@@ -6,6 +6,7 @@ import click
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
+app.secret_key = 'plz'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////' + os.path.join(app.root_path, 'data.db')
 
 from shopping import models
@@ -33,6 +34,15 @@ def fake():
     for g in goods:
         good = models.Good(title = g['title'], price = g['price'])
         db.session.add(good)
+
+    buyers=[
+        {'name':'plz', 'password':'plz'},
+        {'name':'xcc', 'password':'xcc'}
+    ]
+    for b in buyers:
+        buyer = models.Buyer(name = b['name'], password=b['password'])
+        db.session.add(buyer)
+
     db.session.commit()
     click.echo("generated fake data.")
 
@@ -43,6 +53,7 @@ def querydb():
     query database data
     '''
     print(models.Good.query.all())
+    print(models.Buyer.query.all())
         
     
 
