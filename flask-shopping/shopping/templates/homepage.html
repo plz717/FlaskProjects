@@ -1,0 +1,25 @@
+
+{% block content %}
+<p>
+    Welcome to our website!
+    {% if goods != None %}
+        TOTAL {{ goods|length }} Goods FOR YOU TO CHOOSE!
+    {% endif %}
+</p>
+
+<p>
+    {% if username == None %}
+        LOG IN BUTTON 
+    {% endif %}
+</p>
+
+<ul class="good-list">
+    {% if goods != None %}
+        {% for gd in goods %}
+        <li>
+            {{ gd.title }} - {{ gd.price }}
+        </li>
+        {% endfor %}
+    {% endif %}
+</ul>
+{% endblock %}
