@@ -1,0 +1,16 @@
+{% block content %}
+<form method="post">
+    <!--千万别忘了form中的method设置！！-->
+    账号昵称: <input type="text" name="nickname" required>(登陆账号使用，只包含数字和英文字母)<br>
+    设置登录密码: <input type="text" name="password" required><br>
+    店铺全名: <input type="text" name="fullname"><br>
+    店铺地址: <input type="text" name="location"><br>
+    店铺联系方式: <input type="text" name="phone" required><br>
+
+    <input class="btn" type="submit" value="register">
+</form>
+
+<p>
+    {{ get_flashed_messages()[0] }}
+</p>
+{% endblock %}

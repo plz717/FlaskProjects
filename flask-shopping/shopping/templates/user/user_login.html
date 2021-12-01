@@ -1,0 +1,14 @@
+{% block content %}
+<form method="post">
+    <!--千万别忘了form中的method设置！！-->
+    账号昵称: <input type="text" name="username"><br>
+
+    登陆密码: <input type="text" name="password"><br>
+
+    <input class="btn" type="submit" value="login">
+</form>
+
+<p>
+    {{ get_flashed_messages()[0] }}
+</p>
+{% endblock %}

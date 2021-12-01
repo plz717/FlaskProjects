@@ -1,0 +1,26 @@
+
+{% block content %}
+<p>
+    {{ get_flashed_messages()[0] }}
+</p>
+
+<p>
+    {% if foods != None %}
+        TOTAL {{ foods|length }} Foods!
+    {% endif %}
+</p>
+
+
+
+<ul class="food-list">
+    {% if foods != None %}
+        {% for gd in foods %}
+        <li>
+            {{ gd.name }} - {{ gd.price }}元 - {{ gd.rest_name }}
+        </li>
+        {% endfor %}
+    {% endif %}
+</ul>
+<a href="{{ url_for('seller_add_food') }}">添加商品</a>
+
+{% endblock %}

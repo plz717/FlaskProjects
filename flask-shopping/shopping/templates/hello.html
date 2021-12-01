@@ -1,0 +1,30 @@
+
+{% block content %}
+<p>
+    Welcome to our website!
+    {% if foods != None %}
+        TOTAL {{ foods|length }} Foods FOR YOU TO CHOOSE!
+    {% endif %}
+</p>
+
+{% if 'username' not in session %}
+    <a href="{{ url_for('user_register') }}">Register</a>
+    <a href="{{ url_for('user_login') }}">Log In</a>
+{% endif %}
+<a href="{{ url_for('user_logout') }}">Log Out</a>
+
+
+<form method="post" class="food-list">
+    {% if foods != None %}
+        {% for gd in foods %}
+        <li>
+            <input type="checkbox" name="chosen_foods" value="{{ gd.name }}##{{ gd.price }}">{{ gd.name }} - {{ gd.price }}元 - {{ gd.rest_name }}<br>
+        </li>
+        {% endfor %}
+        {% if 'username' in session %}
+            <input type="submit" value="提交">
+        {% endif %}
+    {% endif %}
+</form>
+
+{% endblock %}

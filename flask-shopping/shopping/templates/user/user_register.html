@@ -1,0 +1,14 @@
+{% block content %}
+<form method="post">
+    <!--千万别忘了form中的method设置！！-->
+    账号昵称: <input type="text" name="username" required>(登陆账号使用，只包含数字和英文字母)<br>
+    登录密码: <input type="text" name="password" ><br>
+    联系方式: <input type="text" name="phone" ><br>
+
+    <input class="btn" type="submit" value="register">
+</form>
+
+<p>
+    {{ get_flashed_messages()[0] }}
+</p>
+{% endblock %}

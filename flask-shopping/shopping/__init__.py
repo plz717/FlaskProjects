@@ -27,21 +27,25 @@ def fake():
     '''
     generate fake data.
     '''
-    goods = [
-        {'title': 'a beautiful red dress for young lady.', 'price': 300},
-        {'title': 'comfortable blue shoes for old-man', 'price': 204}
+    rests = [
+        {'fullname':'restaurant1', 'nickname':'rest1', 'location':'beijing', 'phone':'123445322', 'password':'rest1'},
+        {'fullname':'restaurant2', 'nickname':'rest2', 'location':'shanghai', 'phone':'423442322', 'password': 'rest2'}
     ]
-    for g in goods:
-        good = models.Good(title = g['title'], price = g['price'])
-        db.session.add(good)
 
-    buyers=[
-        {'name':'plz', 'password':'plz'},
-        {'name':'xcc', 'password':'xcc'}
+    foods = [
+        {'name':'food1', 'price': 1.3, 'rest_name': 'rest1'},
+        {'name':'food2', 'price': 2, 'rest_name': 'rest1'},
+        {'name':'food1', 'price': 2.3, 'rest_name': 'rest2'},
+        {'name':'food4', 'price': 5, 'rest_name': 'rest2'}
     ]
-    for b in buyers:
-        buyer = models.Buyer(name = b['name'], password=b['password'])
-        db.session.add(buyer)
+
+    for r in rests:
+        rest = models.Restaurant(fullname=r['fullname'], nickname=r['nickname'], location=r['location'], phone=r['phone'], password= r['password'])
+        db.session.add(rest)
+    
+    for f in foods:
+        food = models.Food(name=f['name'], rest_name=f['rest_name'], price=f['price'])
+        db.session.add(food)
 
     db.session.commit()
     click.echo("generated fake data.")
@@ -52,8 +56,8 @@ def querydb():
     '''
     query database data
     '''
-    print(models.Good.query.all())
-    print(models.Buyer.query.all())
+    print(models.Restaurant.query.all())
+    print(models.Food.query.all())
         
     
 
