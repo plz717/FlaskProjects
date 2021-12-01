@@ -13,7 +13,12 @@
 
 <p>
     {% if username == None %}
-        LOG IN BUTTON 
+    <p>
+        <a href="{{ url_for('login') }}">login
+        </a><br>
+        <a href="{{ url_for('register') }}">register
+        </a>
+    </p>
     {% endif %}
 </p>
 
