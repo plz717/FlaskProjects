@@ -1,0 +1,20 @@
+{% block content %}
+    <!--千万别忘了form中的method设置！！-->
+
+<form method="post" class="company-list">
+    {% if companies != None %}
+        {% for comp in companies %}
+        <li>
+            <input type="radio" name="chosen_company" value="{{ comp.name }}">{{ comp.name }}<br>
+        </li>
+        {% endfor %}
+        <li>
+            <input type="radio" name="chosen_company">没有你的公司名字，请输入：<input type="text" name="other_company_name"><br>
+        </li>
+        
+        <input type="submit" value="提交">
+    {% endif %}
+</form>
+
+
+{% endblock %}

@@ -1,9 +1,13 @@
 {% block content %}
 <form method="post">
     <!--千万别忘了form中的method设置！！-->
+    {% if 'company' in session %}
+        公司名称: <input type="text" name="company" value="{{ session['company'] }}"><br>
+    {% endif %}
+
     账号昵称: <input type="text" name="username" required>(登陆账号使用，只包含数字和英文字母)<br>
-    登录密码: <input type="text" name="password" ><br>
-    联系方式: <input type="text" name="phone" ><br>
+    登录密码: <input type="text" name="password" required><br>
+    联系方式: <input type="text" name="phone" required><br>
 
     <input class="btn" type="submit" value="register">
 </form>

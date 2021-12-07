@@ -25,6 +25,7 @@ class Restaurant(db.Model):
     password = db.Column(db.String(20))    
     location = db.Column(db.String(20))
     phone = db.Column(db.String(20))
+    company_names = db.Column(db.String(100))  # 餐馆可以对应的公司names
 
 class Food(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -36,3 +37,12 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20))
     password = db.Column(db.String(20))
+    company = db.Column(db.String(20))
+
+class Company(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(20))
+    rest_names = db.Column(db.String(100)) # 公司可以对应的餐馆names
+
+
+
