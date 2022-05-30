@@ -1,0 +1,36 @@
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
+</head>
+
+<p class="center-large">
+    {# 接受diary id/ title / time / content 变量#}
+     {{ title }}
+</p>
+
+<p class="right-small">
+    By {{ username }}<br>
+    {{ location }}<br>
+    {{time[:12]}}
+</p>
+
+<!--<textarea>-->
+<!--    {{ content }}-->
+<!--</textarea>-->
+
+<body>
+{{ content }}
+</body>
+
+{# edit this diary #}
+<span>
+    <form method="post" action="{{ url_for('edit_diary', diary_id = diary_id) }}">
+        <input class="right-upper-button" type="submit" name="edit" value="Edit">
+    </form>
+</span>
+
+{# delete this diary  #}
+<span>
+    <form method="post" action="{{ url_for('delete_diary', diary_id = diary_id) }}">
+        <input class="right-lower-button"  type="submit" name="delete" value="Delete" onclick="return confirm('Are you sure?')">
+    </form>
+</span>

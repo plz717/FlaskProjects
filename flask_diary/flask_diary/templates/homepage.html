@@ -1,0 +1,28 @@
+{# {{...}}用来标记变量； {% %}用来标记语句，if/for等 #}
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
+</head>
+<h1 class="center-large">Welcome to {{ username }}'s World!</h1>
+<p>This is my loving family!</p>
+<img alt="my family" class="family" src="{{ url_for('static', filename='images/family.jpg') }}">
+
+{# register a new user #}
+<a href="{{ url_for('register') }}">Register here!</a>
+
+{# show all my diaries #}
+<body>
+    <center><h2>This is my diary!</h2></center>
+    <p>{{ diaries|length }} Diaries in Total!</p>
+    <a href="{{ url_for('create_diary') }}">New</a>  {# create a new diary #}
+
+    <ol>
+    {% for diary in diaries %}
+        <li>[{{ diary.create_time.year }}/{{ diary.create_time.month }}/{{ diary.create_time.day }}]   <a href="{{ url_for('show_diary',diary_id=diary.id) }}">{{ diary.title }}</a></li>
+    {% endfor %}
+    </ol>
+
+</body>
+
+
+
+

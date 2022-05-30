@@ -1,0 +1,13 @@
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
+</head>
+
+<form method="post" action="{{ url_for('save_diary', diary_id=diary.id) }}">
+    <center>
+       Username: <input type="text" value="小胖儿" name="username"  autocomplete="on" required><br>
+        Title: <input type="text" value="{{ diary.title }}" name="title" autocomplete="off" required><br>
+        Location: <input type="text" value="{{ diary.location }}" name="location" autocomplete="on" required><br>
+        <textarea name="content" required> {{ diary.content }} </textarea><br>
+    </center>
+    <input class="right-lower-button", type="submit" name="save" value="Save">
+</form>

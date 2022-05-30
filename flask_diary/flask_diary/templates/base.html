@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+    {% for message in get_flashed_messages() %}
+        <div style="text-align: center;" class="alert">{{ message }}</div>
+    {% endfor %}
+    {# below clause is very very important!!  #}
+    {% block content %}{% endblock %}
+</body>
+</html>
